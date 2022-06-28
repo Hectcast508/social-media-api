@@ -1,6 +1,7 @@
 const { User } = require('../models');
 
 const userController = {
+  //Gets all the users
   getAllUser(req, res) {
     User.find({})
     .then(dbUserData => res.json(dbUserData))
@@ -9,7 +10,7 @@ const userController = {
       res.status(404);
       });
   },
-
+  //Gets any user ny its Id
   getUserById({ params }, res) {
     User.findOne({ _id: params.id })
     .populate({
@@ -23,13 +24,13 @@ const userController = {
       res.status(404);
       });
   },
-
+  //Lets you create a new user
   createUser({ body }, res) {
     User.create(body)
     .then(dbUserData => res.json(dbUserData))
     .catch(err => res.json(err));
   },
-
+  //With the id of the user you can update it
   updateUser({ params, body }, res) {
     User.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true })
       .then(dbUserData => {
@@ -41,13 +42,13 @@ const userController = {
       })
       .catch(err => res.json(err));
   },
-
+  //Lets you delete a user by its id
   deleteUser({ params }, res) {
     User.findOneAndDelete({ _id:params.id })
     .then(dbUserData => res.json(dbUserData))
     .catch(err => res.json(err));
   },
-
+  //Lets you add a friend to a user by getting the two users id's
   addFriend({ params }, res) {
     User.findByIdAndUpdate(
       { _id: params.userId},
@@ -56,7 +57,7 @@ const userController = {
     .then(dbUserData => res.json(dbUserData))
     .catch(err => res.json(err));
   },
-
+  //Lets you remove friends form users
   removeFriend({ params }, res) {
     User.findByIdAndUpdate(
       { _id: params.userId },
